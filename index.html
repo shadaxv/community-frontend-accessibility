@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community Frontend</title>
+    <script src="./scripts/theme-toggle.js" type="module"></script>
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+
+  <body>
+    <header class="sticky-top">
+      <div>
+        <p>Community Frontend - Common Web Accessibility Issues</p>
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          title="Toggles light & dark"
+          aria-label="auto"
+          aria-live="polite"
+        >
+          <svg
+            class="sun-and-moon"
+            aria-hidden="true"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <mask class="moon" id="moon-mask">
+              <rect x="0" y="0" width="100%" height="100%" fill="white" />
+              <circle cx="24" cy="10" r="6" fill="black" />
+            </mask>
+            <circle
+              class="sun"
+              cx="12"
+              cy="12"
+              r="6"
+              mask="url(#moon-mask)"
+              fill="currentColor"
+            />
+            <g class="sun-beams" stroke="currentColor">
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </g>
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main>
+      <section>
+        <h1>Community Frontend</h1>
+        <h2>Common Web Accessibility Issues</h2>
+      </section>
+
+      <section class="fixed">
+        <h3>Table of Contents</h3>
+        <ol>
+          <li><a href="#web-accessibility">What is Web Accessibility?</a></li>
+          <li><a href="#focus-styles">Focus on Focus Styles</a></li>
+          <li>
+            <a href="#interactive-elements">Avoid divs as clickable elements</a>
+          </li>
+          <li>
+            <a href="#keyboard-navigation">Improve keyboard navigation</a>
+          </li>
+          <li><a href="#contrast-ratio">Check contrast ratio</a></li>
+          <li><a href="#font-size">Keep font size changeable</a></li>
+          <li><a href="#image-alt">Don't forget about alt</a></li>
+        </ol>
+      </section>
+
+      <section id="web-accessibility" title="What is Web Accessibility?">
+        <h2 class="counter">What is Web Accessibility?</h2>
+        <p>
+          Web accessibility means that websites, tools, and technologies are
+          designed and developed so that people with disabilities can use them.
+        </p>
+        <p>
+          Resources:<br />
+          <a
+            href="https://www.w3.org/WAI/fundamentals/accessibility-intro/"
+            rel="noopener noreferrer"
+            target="_blank"
+            >w3.org/WAI/fundamentals/accessibility-intro</a
+          >
+        </p>
+      </section>
+
+      <section id="focus-styles" title="Focus on Focus Styles">
+        <h2 class="counter">Focus on Focus Styles</h2>
+        <p>
+          Often, when styling elements, we forget about the
+          <code>:focus</code> styles, providing styles only for
+          <code>:hover</code>, while setting <code>outline: none</code> because
+          after clicking the button, outline is still visible. We forget about
+          the fact that not everyone uses the browser with a mouse, and keyboard
+          control on such a page is a pain.
+        </p>
+        <fieldset class="grid">
+          <legend>Missing focus and outline</legend>
+          <input type="checkbox" />
+          <button
+            class="button button--no-focus button--no-outline"
+            role="button"
+          >
+            Button [no focus & outline]
+          </button>
+          <button class="button button--no-outline" role="button">
+            Button [no outline]
+          </button>
+          <button class="button" role="button">Button [focus]</button>
+          <button
+            class="button button--no-focus button--no-outline"
+            role="button"
+            disabled
+          >
+            Button [disabled]
+          </button>
+          <button class="button button--focus-visible" role="button">
+            Button [focus-visible]
+          </button>
+          <input type="checkbox" />
+        </fieldset>
+        <p>
+          Usage:<br />
+          <code contenteditable>
+            button:focus {<br />
+            &nbsp;&nbsp;/* Provide a fallback style for browsers<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;that don't support :focus-visible
+            */<br />
+            &nbsp;&nbsp;outline: 2px solid red;<br />
+            &nbsp;&nbsp;background: lightgrey;<br />
+            }<br />
+            <br />
+            @supports selector(:focus-visible) {<br />
+            &nbsp;&nbsp;button:focus {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;/* Remove the focus indicator on mouse-focus
+            for browsers<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;that do support
+            :focus-visible */<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;outline: none;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;background: transparent;<br />
+            &nbsp;&nbsp;}<br />
+            }<br />
+            <br />
+            button:focus-visible {<br />
+            &nbsp;&nbsp;/* Draw a very noticeable focus style for<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keyboard-focus on browsers that do
+            support<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:focus-visible */<br />
+            &nbsp;&nbsp;outline: 4px dashed darkorange;<br />
+            &nbsp;&nbsp;background: transparent;<br />
+            }<br /> </code
+          ><br />
+        </p>
+        <p>
+          Resources:<br />
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible"
+            rel="noopener noreferrer"
+            target="_blank"
+            >developer.mozilla.org</a
+          >
+        </p>
+      </section>
+
+      <section id="interactive-elements">
+        <h2 class="counter">Avoid divs as clickable elements</h2>
+        <p>
+          In short, use <code>buttons</code> to interact with the page, and
+          <code>anchors</code> to navigate within and between pages. If you
+          really have to, use another element but give it the appropriate
+          attributes.
+        </p>
+        <fieldset class="grid">
+          <legend>Examples of different clickable elements</legend>
+          <input type="checkbox" />
+          <button type="button" class="button" onclick="alert('Clicked!')">
+            Normal button
+          </button>
+          <div class="button" onclick="alert('Clicked!')">Div as a button</div>
+          <div class="button" onclick="alert('Clicked!')" tabindex="0">
+            Div as a button [tabindex]
+          </div>
+          <a
+            onclick="event.preventDefault(); alert('Clicked!')"
+            class="button"
+            tabindex="0"
+            ><div>Anchor as a button [tabindex]</div></a
+          >
+          <a
+            onclick="event.preventDefault(); alert('Clicked!')"
+            class="button"
+            href=""
+            ><div>Anchor as a button [href]</div></a
+          >
+          <input type="checkbox" />
+        </fieldset>
+        <p>
+          Usage:<br />
+          <code contenteditable>
+            /* Use role="presentation" e.g. for backdrop elements */<br />
+            &lt;div onclick="{onClickHandler}" role="presentation"&gt;<br />
+            &nbsp;&nbsp;&lt;button>Save&lt;/button&gt;<br />
+            &lt;/div&gt;<br />
+            <br />
+            /* Use role="button" and tabindex="0" for interactive elements */<br />
+            &lt;div<br />
+            &nbsp;&nbsp;onclick="{onClickHandler}"<br />
+            &nbsp;&nbsp;onkeydown="{onKeyDownHandler}"<br />
+            &nbsp;&nbsp;role="button"<br />
+            &nbsp;&nbsp;tabindex="0"<br />
+            /&gt; </code
+          ><br />
+        </p>
+        <p>
+          Resources:<br />
+          <a
+            href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/no-noninteractive-element-interactions.md"
+            rel="noopener noreferrer"
+            target="_blank"
+            >ESLint no-noninteractive-element-interactions</a
+          ><br />
+          <a
+            href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/main/docs/rules/interactive-supports-focus.md"
+            rel="noopener noreferrer"
+            target="_blank"
+            >ESLint interactive-supports-focus</a
+          >
+        </p>
+      </section>
+
+      <section id="keyboard-navigation">
+        <h2 class="counter">Improve keyboard navigation</h2>
+        <p>
+          Using relevant tags to interact on the page is not always enough. A
+          good example of this is the huge navigations on pages.
+        </p>
+
+        <fieldset class="grid">
+          <legend>Example with different navigations</legend>
+          <nav class="flex space-between">
+            Hover nav
+            <ul class="flex menu">
+              <li><a class="button" href="#">Home</a></li>
+              <li><a class="button" href="#">Services</a></li>
+              <li class="submenu-opener">
+                <a class="button" href="#">Projects ⮟</a>
+                <ul class="submenu submenu--hover" style="z-index: 3">
+                  <li><a class="button" href="#">Project 1</a></li>
+                  <li><a class="button" href="#">Project 2</a></li>
+                  <li><a class="button" href="#">Project 3</a></li>
+                  <li><a class="button" href="#">Project 4</a></li>
+                  <li><a class="button" href="#">Project 5</a></li>
+                  <li><a class="button" href="#">Project 6</a></li>
+                  <li><a class="button" href="#">Project 7</a></li>
+                  <li><a class="button" href="#">Project 8</a></li>
+                  <li><a class="button" href="#">Project 9</a></li>
+                  <li><a class="button" href="#">Project 10</a></li>
+                </ul>
+              </li>
+              <li><a class="button" href="#">About</a></li>
+              <li><a class="button" href="#">Contact</a></li>
+            </ul>
+          </nav>
+          <nav class="flex space-between">
+            Tabbed nav
+            <ul class="flex menu">
+              <li><a class="button" href="#">Home</a></li>
+              <li><a class="button" href="#">Services</a></li>
+              <li class="submenu-opener">
+                <a class="button" href="#">Projects ⮟</a>
+                <ul class="submenu submenu--tabbed" style="z-index: 2">
+                  <li><a class="button" href="#">Project 1</a></li>
+                  <li><a class="button" href="#">Project 2</a></li>
+                  <li><a class="button" href="#">Project 3</a></li>
+                  <li><a class="button" href="#">Project 4</a></li>
+                  <li><a class="button" href="#">Project 5</a></li>
+                  <li><a class="button" href="#">Project 6</a></li>
+                  <li><a class="button" href="#">Project 7</a></li>
+                  <li><a class="button" href="#">Project 8</a></li>
+                  <li><a class="button" href="#">Project 9</a></li>
+                  <li><a class="button" href="#">Project 10</a></li>
+                </ul>
+              </li>
+              <li><a class="button" href="#">About</a></li>
+              <li><a class="button" href="#">Contact</a></li>
+            </ul>
+          </nav>
+          <nav class="flex space-between">
+            Tabbed + arrow nav
+            <ul class="flex menu">
+              <li><a class="button" href="#">Home</a></li>
+              <li><a class="button" href="#">Services</a></li>
+              <li class="submenu-opener submenu-opener--arrow">
+                <a
+                  class="button"
+                  href="#"
+                  aria-haspopup="true"
+                  aria-controls="menu"
+                  >Projects ⮟</a
+                >
+                <ul id="menu" class="submenu submenu--arrow" style="z-index: 1">
+                  <li><a class="button" href="#">Project 1</a></li>
+                  <li><a class="button" href="#">Project 2</a></li>
+                  <li><a class="button" href="#">Project 3</a></li>
+                  <li><a class="button" href="#">Project 4</a></li>
+                  <li><a class="button" href="#">Project 5</a></li>
+                  <li><a class="button" href="#">Project 6</a></li>
+                  <li><a class="button" href="#">Project 7</a></li>
+                  <li><a class="button" href="#">Project 8</a></li>
+                  <li><a class="button" href="#">Project 9</a></li>
+                  <li><a class="button" href="#">Project 10</a></li>
+                </ul>
+              </li>
+              <li><a class="button" href="#">About</a></li>
+              <li><a class="button" href="#">Contact</a></li>
+            </ul>
+          </nav>
+          <header class="margin">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Perspiciatis in reiciendis tempora! Soluta consectetur voluptatem
+            aliquam est ad quidem, rem officia totam, ratione quisquam enim
+            temporibus sequi velit excepturi dolore!
+          </header>
+          <section title="Content" class="margin">
+            <h3>Main Content</h3>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea
+              debitis libero, doloremque, illum quidem itaque accusantium atque
+              sunt accusamus numquam laborum ad voluptatum natus similique
+              cupiditate quo aliquid esse. Nam.
+            </p>
+          </section>
+        </fieldset>
+
+        <fieldset class="grid">
+          <legend>Example with hidden buttons</legend>
+          <a href="#example-header" class="button button--hidden"
+            >Skip navigation</a
+          >
+          <a href="#content" class="button button--hidden">Skip to content</a>
+          <nav class="flex space-around">
+            <ul class="flex menu">
+              <li><a class="button" href="#">Home</a></li>
+              <li><a class="button" href="#">Services</a></li>
+              <li class="submenu-opener submenu-opener--arrow">
+                <a
+                  class="button"
+                  href="#"
+                  aria-haspopup="true"
+                  aria-controls="menu2"
+                  >Projects ⮟</a
+                >
+                <ul
+                  id="menu2"
+                  class="submenu submenu--arrow"
+                  style="z-index: 1"
+                >
+                  <li><a class="button" href="#">Project 1</a></li>
+                  <li><a class="button" href="#">Project 2</a></li>
+                  <li><a class="button" href="#">Project 3</a></li>
+                  <li><a class="button" href="#">Project 4</a></li>
+                  <li><a class="button" href="#">Project 5</a></li>
+                  <li><a class="button" href="#">Project 6</a></li>
+                  <li><a class="button" href="#">Project 7</a></li>
+                  <li><a class="button" href="#">Project 8</a></li>
+                  <li><a class="button" href="#">Project 9</a></li>
+                  <li><a class="button" href="#">Project 10</a></li>
+                </ul>
+              </li>
+              <li><a class="button" href="#">About</a></li>
+              <li><a class="button" href="#">Contact</a></li>
+            </ul>
+          </nav>
+          <header id="example-header" class="margin">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Perspiciatis in reiciendis tempora! Soluta consectetur voluptatem
+            aliquam est ad quidem, rem officia totam, ratione quisquam enim
+            temporibus sequi velit excepturi dolore!
+          </header>
+          <section id="content" title="Content" class="margin">
+            <h3>Main Content</h3>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea
+              debitis libero, doloremque, illum quidem itaque accusantium atque
+              sunt accusamus numquam laborum ad voluptatum natus similique
+              cupiditate quo aliquid esse. Nam.
+            </p>
+          </section>
+        </fieldset>
+        <p>
+          Resources:<br />
+          <a
+            href="https://www.npmjs.com/package/roving-ux"
+            rel="noopener noreferrer"
+            target="_blank"
+            >npmjs.com/package/roving-ux</a
+          >
+        </p>
+      </section>
+
+      <section id="contrast-ratio">
+        <h2 class="counter">Check contrast ratio</h2>
+        <p>
+          People with different types of visual impairments, such as color
+          blindness and low vision, perceive colors differently. The color
+          contrast between background and foreground content (that is, usually
+          text) should be great enough to ensure legibility.
+        </p>
+        <figure>
+          <img
+            src="https://css-tricks.com/wp-content/uploads/2020/04/Frame-1-1.svg"
+            alt="Examples of colors and their ratio contrast"
+          />
+          <figcaption>
+            Sometimes a small change makes a big difference
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="font-size">
+        <h2 class="counter">Keep font size changeable</h2>
+        <p>
+          Operating on values that are non-relative or relative to the viewport
+          is not a good approach, and it can make it difficult to adapt our site
+          to user preferences in a variety of ways. Instead, use
+          <code>em</code>, <code>rem</code>, and <code>ch</code> values, and if
+          you want to change the base font size, set it as a percentage.
+        </p>
+        <fieldset class="grid">
+          <legend>Example</legend>
+          <div class="always2vw">Always 2vw</div>
+          <div class="always16px">Always 16px</div>
+          <div class="always1rem">Always 1rem</div>
+        </fieldset>
+      </section>
+
+      <section id="image-alt">
+        <h2 class="counter">Don't forget about alt</h2>
+        <p>
+          Specifying the <code>alt</code> attribute in images is important for
+          people using screen readers. With this attribute they can find out
+          what the image represents, whether it contains any text or if the
+          image is irrelevant. By specifying an empty <code>alt=""</code> or
+          <code>role="presentation"</code> attribute, the screen reader will
+          skip such an image.
+        </p>
+      </section>
+    </main>
+    <!--
+      https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_Media_Queries_for_Accessibility
+      https://developer.mozilla.org/en-US/docs/Web/CSS/@media/-ms-high-contrast
+      https://developer.mozilla.org/en-US/docs/Web/CSS/forced-color-adjust
+      https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color
+      https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme
+      https://accessabilly.com/accessibility-issues-concerning-windows-high-contrast-mode/
+      https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#system_colors
+      https://css-tricks.com/accessible-svgs-high-contrast-mode/
+      https://codepen.io/tigt/post/writing-css-for-high-contrast-mode
+      https://blogs.windows.com/msedgedev/2020/09/17/styling-for-windows-high-contrast-with-new-standards-for-forced-colors/
+      
+      @media (forced-colors: active) {
+        /* Styles here only apply to Forced Colors Mode */
+      }
+      
+      Then, we will use forced-color-adjust to remove forced colors styling from the palette items:
+      @media (forced-colors: active) {
+        .prefs__palette {
+          forced-color-adjust: none;
+        }
+      }
+    -->
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

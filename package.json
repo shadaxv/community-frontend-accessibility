@@ -1,0 +1,33 @@
+{
+  "name": "community-frontend-accessibility",
+  "version": "1.0.0",
+  "browserslist": [
+    "defaults"
+  ],
+  "description": "",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build --base=./",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shadaxv/community-frontend-accessibility.git"
+  },
+  "author": "Aleksander Niedzwiedz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shadaxv/community-frontend-accessibility/issues"
+  },
+  "homepage": "https://github.com/shadaxv/community-frontend-accessibility#readme",
+  "devDependencies": {
+    "postcss-jit-props": "^1.0.4",
+    "postcss-preset-env": "^7.2.3",
+    "vite": "^2.7.13"
+  },
+  "dependencies": {
+    "open-props": "^1.1.6",
+    "roving-ux": "^1.0.4"
+  }
+}
